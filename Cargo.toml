@@ -2,6 +2,7 @@
 name = "vss-core-rust"
 version = "0.1.0"
 authors = ["johnathan <johnathanfercher22@gmail.com>"]
+build = "build.rs"
 
 [dependencies]
 libc = "0.2.0"

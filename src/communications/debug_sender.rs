@@ -1,26 +1,26 @@
 extern crate libc;
 
 use domain::team_type::TeamType;
-use domain::command::Command;
+use domain::debug::Debug;
 
 #[link(name = "vss-core")]
 extern "C"{
     pub fn create_socket(team_type: TeamType);
-    pub fn receive_command() -> Command;
+    pub fn send_debug(debug: Debug);
 }
 
-pub struct CommandReceiver;
+pub struct DebugSender;
 
-impl CommandReceiver {
+impl DebugSender {
     pub fn create_socket(team_type: TeamType) {
         unsafe {
             create_socket(team_type);
         }
     }
 
-    pub fn receive_command() -> Command {
+    pub fn send_debug(debug: Debug){
         unsafe {
-            receive_command()
+            send_debug(debug);
         }
     }
 }

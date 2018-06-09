@@ -5,7 +5,7 @@ use domain::robot::Robot;
 use domain::ball::Ball;
 
 #[repr(C)]
-pub struct Command {
+pub struct Control {
     pub paused: c_int,
     pub ball: Ball,
     pub team_blue: Vec<Robot>,
