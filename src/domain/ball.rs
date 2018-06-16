@@ -1,12 +1,19 @@
-extern crate libc;
-
-use self::libc::c_float;
-
-#[repr(C)]
+#[derive(Clone)]
 pub struct Ball {
-    pub x: c_float,
-    pub y: c_float,
-    pub speed_x: c_float,
-    pub speed_y: c_float
+    pub x: f32,
+    pub y: f32,
+    pub speed_x: f32,
+    pub speed_y: f32
+}
+
+impl Ball {
+    pub fn new() -> Self {
+        Self {
+            x: 0.0,
+            y: 0.0,
+            speed_x: 0.0,
+            speed_y: 0.0
+        }
+    }
 }
 

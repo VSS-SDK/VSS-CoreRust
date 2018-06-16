@@ -1,6 +1,4 @@
-extern crate libc;
-
-#[repr(C)]
+#[derive(Clone)]
 pub enum TeamType {
     Yellow,
     Blue

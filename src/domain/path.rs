@@ -1,9 +1,15 @@
-extern crate libc;
-
 use domain::point::Point;
 
-#[repr(C)]
+#[derive(Clone)]
 pub struct Path {
     pub points: Vec<Point>
+}
+
+impl Path {
+    pub fn new() -> Self {
+        Self {
+            points: Vec::new()
+        }
+    }
 }
 
