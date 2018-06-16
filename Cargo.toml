@@ -4,6 +4,10 @@ version = "0.1.0"
 authors = ["johnathan <johnathanfercher22@gmail.com>"]
 
 [dependencies]
+protobuf = "2.0.*"
+
+[dependencies.zmq]
+git = "https://github.com/erickt/rust-zmq.git"
 
 [build-dependencies]
 protoc-rust = "1.5"
