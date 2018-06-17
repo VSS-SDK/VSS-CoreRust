@@ -40,7 +40,7 @@ impl CommandSender {
                 println!("teste2");
                 let string_bytes = str::from_utf8(&V).unwrap();
                 println!("teste3");
-                self.socket.send(string_bytes, 0).unwrap();
+                self.socket.send_str(string_bytes, 0).unwrap();
             },
             Err(E) => println!("{:?}", E)
         }
