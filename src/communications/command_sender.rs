@@ -34,10 +34,14 @@ impl CommandSender {
     pub fn send_command(&self, command: Command) {
         let global_command = CommandMapper.command_to_global_commands(command);
 
-        let bytes = global_command.write_to_bytes().unwrap();
-        let string_bytes = str::from_utf8(&bytes).unwrap();
+        match global_command.write_to_bytes(){
+            Ok(V) => {
+                let string_bytes = str::from_utf8(&V).unwrap();
+                self.socket.send(string_bytes, 0).unwrap();
+            },
+            Err(E) => println!("{:?}", E)
+        }
 
-        self.socket.send(string_bytes, 0).unwrap();
     }
 
     fn setup_address(&mut self, team_type: TeamType) {
