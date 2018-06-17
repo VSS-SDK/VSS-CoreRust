@@ -37,7 +37,12 @@ impl CommandSender {
         let bytes = global_command.write_to_bytes().unwrap();
         match str::from_utf8(&bytes){
             Ok(v) => self.socket.send(v, 0).unwrap(),
-            Err(e) => println!("{:?}", e)
+            Err(e) => {
+                match e {
+                    Option(o) => println!("{:?}", o),
+                    None => println!("None")
+                }
+            }
         }
 
 
