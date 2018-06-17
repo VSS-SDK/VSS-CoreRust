@@ -32,21 +32,14 @@ impl CommandSender {
     }
 
     pub fn send_command(&self, command: Command) {
-        println!("teste1");
         let global_command = CommandMapper.command_to_global_commands(command);
 
-        match global_command.write_to_bytes(){
-            Ok(V) => {
-                println!("teste2");
-                let string_bytes = str::from_utf8(&V).unwrap();
-                println!("teste3");
-                match self.socket.send(string_bytes, 0){
-                    Ok(V2) => println!("enviado"),
-                    Err(E2) => println!("{:?}", E2)
-                }
-            },
-            Err(E) => println!("{:?}", E)
+        let bytes = global_command.write_to_bytes().unwrap();
+        match str::from_utf8(&bytes){
+            Ok(v) => self.socket.send(v, 0).unwrap(),
+            Err(e) => println!("{:?}", e)
         }
+
 
     }
 
