@@ -16,11 +16,17 @@ pub struct CommandSender{
 
 impl CommandSender {
 
+    pub fn new() -> Self {
+        let context_helper = Context::new();
+        Self {
+            context: context_helper.clone(),
+            socket: context_helper.socket(PAIR).unwrap(),
+            address: String::from("")
+        }
+    }
+
     pub fn create_socket(&mut self, team_type: TeamType) {
         self.setup_address(team_type);
-
-        self.context = Context::new();
-        self.socket = self.context.socket(PAIR).unwrap();
 
         assert!(self.socket.connect(&self.address).is_ok());
     }
