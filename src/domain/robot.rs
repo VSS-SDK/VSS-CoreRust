@@ -1,4 +1,4 @@
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Robot {
     pub x: f32,
     pub y: f32,

@@ -1,7 +1,7 @@
 use domain::robot::Robot;
 use domain::ball::Ball;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Control {
     pub paused: bool,
     pub ball: Ball,

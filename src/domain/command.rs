@@ -1,6 +1,6 @@
 use domain::wheels_command::WheelsCommand;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Command {
     pub commands: Vec<WheelsCommand>,
 }

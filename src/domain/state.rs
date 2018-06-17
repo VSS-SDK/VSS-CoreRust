@@ -1,7 +1,7 @@
 use domain::robot::Robot;
 use domain::ball::Ball;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct State {
     pub ball: Ball,
     pub team_blue: Vec<Robot>,

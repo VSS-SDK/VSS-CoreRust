@@ -1,4 +1,4 @@
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct WheelsCommand {
     pub left_vel: f32,
     pub right_vel: f32,

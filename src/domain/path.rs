@@ -1,6 +1,6 @@
 use domain::point::Point;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Path {
     pub points: Vec<Point>
 }

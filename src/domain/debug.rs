@@ -2,7 +2,7 @@ use domain::point::Point;
 use domain::pose::Pose;
 use domain::path::Path;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Debug {
     pub step_points: Vec<Point>,
     pub final_poses: Vec<Pose>,
