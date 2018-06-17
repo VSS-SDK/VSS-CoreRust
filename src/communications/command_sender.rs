@@ -39,8 +39,8 @@ impl CommandSender {
             Ok(v) => self.socket.send(v, 0).unwrap(),
             Err(e) => {
                 match e {
-                    Option(o) => println!("{:?}", o),
-                    None => println!("None")
+                    Option => println!("{:?}", Option),
+                    _ => println!("None")
                 }
             }
         }
