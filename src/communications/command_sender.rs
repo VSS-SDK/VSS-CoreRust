@@ -33,7 +33,7 @@ impl CommandSender {
 
     pub fn send_command(&self, command: Command) {
         let global_command = CommandMapper.command_to_global_commands(command);
-
+        println!("{:?}", global_command);
         let bytes = global_command.write_to_bytes().unwrap();
         println!("{:?}", bytes);
         match str::from_utf8(&bytes){
