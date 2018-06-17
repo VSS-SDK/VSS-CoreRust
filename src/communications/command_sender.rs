@@ -1,11 +1,12 @@
 extern crate zmq;
 
+use std::str;
 use domain::team_type::TeamType;
 use domain::command::Command;
+use helpers::command_mapper::CommandMapper;
+use protobuf::Message;
 
-use self::zmq::{Context, SUB, PAIR, Socket};
-
-use domain::state;
+use self::zmq::{Context, PAIR, Socket};
 
 pub struct CommandSender{
     context: Context,
@@ -25,8 +26,12 @@ impl CommandSender {
     }
 
     pub fn send_command(&self, command: Command) {
-        // let global_command = CommandMapper.
-        // let mut bytes_commands = command.write_to_bytes().unwrap();
+        let global_command = CommandMapper.command_to_global_commands(command);
+
+        let bytes = global_command.write_to_bytes().unwrap();
+        let string_bytes = str::from_utf8(&bytes).unwrap();
+
+        self.socket.send(string_bytes, 0).unwrap();
     }
 
     fn setup_address(&mut self, team_type: TeamType) {
