@@ -1,14 +1,22 @@
-extern crate libc;
-
-use self::libc::c_int;
 use domain::robot::Robot;
 use domain::ball::Ball;
 
-#[repr(C)]
+#[derive(Clone, Debug)]
 pub struct Control {
-    pub paused: c_int,
+    pub paused: bool,
     pub ball: Ball,
     pub team_blue: Vec<Robot>,
     pub team_yellow: Vec<Robot>
+}
+
+impl Control {
+    pub fn new() -> Self {
+        Self {
+            paused: true,
+            ball: Ball::new(),
+            team_blue: Vec::new(),
+            team_yellow: Vec::new()
+        }
+    }
 }
 

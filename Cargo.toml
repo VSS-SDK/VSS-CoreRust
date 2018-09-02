@@ -2,7 +2,12 @@
 name = "vss-core-rust"
 version = "0.1.0"
 authors = ["johnathan <johnathanfercher22@gmail.com>"]
-build = "build.rs"
 
 [dependencies]
-libc = "0.2.0"
+protobuf = { version = "2.0.2", features = ["with-bytes"] }
+
+[dependencies.zmq]
+git = "https://github.com/erickt/rust-zmq.git"
+
+[build-dependencies]
+protoc-rust = "2.0.2"

@@ -1,13 +1,21 @@
-extern crate libc;
-
 use domain::point::Point;
 use domain::pose::Pose;
 use domain::path::Path;
 
-#[repr(C)]
+#[derive(Clone, Debug)]
 pub struct Debug {
     pub step_points: Vec<Point>,
     pub final_poses: Vec<Pose>,
-    pub team_yellow: Vec<Path>
+    pub paths: Vec<Path>
+}
+
+impl Debug {
+    pub fn new() -> Self {
+        Self {
+            step_points: Vec::new(),
+            final_poses: Vec::new(),
+            paths: Vec::new()
+        }
+    }
 }
 

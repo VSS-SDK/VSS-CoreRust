@@ -1,11 +1,16 @@
-extern crate libc;
-
-use self::libc::c_float;
-
-#[repr(C)]
+#[derive(Clone, Debug)]
 pub struct Pose {
-    pub x: c_float,
-    pub y: c_float,
-    pub angle: c_float,
+    pub x: f32,
+    pub y: f32,
+    pub angle: f32,
 }
 
+impl Pose {
+    pub fn new() -> Self {
+        Self {
+            x: 0.0,
+            y: 0.0,
+            angle: 0.0
+        }
+    }
+}

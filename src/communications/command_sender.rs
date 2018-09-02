@@ -1,66 +1,51 @@
-extern crate libc;
+extern crate zmq;
 
+use std::str;
 use domain::team_type::TeamType;
 use domain::command::Command;
+use helpers::command_mapper::CommandMapper;
+use protobuf::Message;
 
-#[link(name = "vss-core")]
-extern "C"{
-    pub fn create_socket(team_type: TeamType);
-    pub fn send_command(command: Command);
+use self::zmq::{Context, PAIR, Socket};
+
+pub struct CommandSender{
+    context: Context,
+    socket: Socket,
+    address: String
 }
 
-pub struct CommandSender;
-
 impl CommandSender {
+
     pub fn new() -> Self {
+        let context_helper = Context::new();
         Self {
+            context: context_helper.clone(),
+            socket: context_helper.socket(PAIR).unwrap(),
+            address: String::from("")
         }
     }
 
-    pub fn create_socket(&self, team_type: TeamType) {
-        unsafe {
-            create_socket(team_type);
-        }
+    pub fn create_socket(&mut self, team_type: TeamType) {
+        self.setup_address(team_type);
+
+        assert!(self.socket.connect(&self.address).is_ok());
     }
 
     pub fn send_command(&self, command: Command) {
-        unsafe {
-            send_command(command);
+        let global_command = CommandMapper.command_to_global_commands(command);
+        let bytes = global_command.write_to_bytes().unwrap();
+
+        let result = self.socket.send(bytes, 0);
+
+        if result.is_err() {
+            println!("{:?}", result.err())
         }
     }
-}
 
-#[cfg(test)]
-mod tests {
-    use self::super::CommandSender;
-    use self::super::Command;
-    use self::super::super::super::domain::wheels_command::WheelsCommand;
-
-    #[test]
-    fn send_command() {
-        let command_sender = CommandSender::new();
-        let mut command = Command::new();
-
-        command.commands.push(WheelsCommand {
-            id: 0,
-            left_vel: 10.0,
-            right_vel: 10.0
-        });
-
-        command.commands.push(WheelsCommand {
-            id: 1,
-            left_vel: 10.0,
-            right_vel: 10.0
-        });
-
-        command.commands.push(WheelsCommand {
-            id: 2,
-            left_vel: 10.0,
-            right_vel: 10.0
-        });
-
-        loop {
-            command_sender.send_command(command.clone());
+    fn setup_address(&mut self, team_type: TeamType) {
+        match team_type {
+            TeamType::Yellow => self.address = String::from("tcp://localhost:5556"),
+            TeamType::Blue => self.address = String::from("tcp://localhost:5557")
         }
     }
 }

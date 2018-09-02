@@ -11,3 +11,7 @@ Cargo.lock
 
 .idea/
 .idea/*
+src/protos/command.rs
+src/protos/control.rs
+src/protos/debug.rs
+src/protos/state.rs
