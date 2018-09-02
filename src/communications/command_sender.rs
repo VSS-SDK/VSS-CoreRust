@@ -40,7 +40,7 @@ impl CommandSender {
 
         match str::from_utf8(&bytes){
             Ok(v) => self.socket.send(v, 0).unwrap(),
-            Err(e) => println!("{:?}", e.error_len().unwrap())
+            Err(e) => println!("Erro: {:?}", e.error_len().unwrap())
         }
     }
 
