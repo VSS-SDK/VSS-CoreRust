@@ -1,5 +1,5 @@
 [package]
-name = "vss-core-rust"
+name = "vss-core"
 version = "0.1.0"
 authors = ["johnathan <johnathanfercher22@gmail.com>"]
 
