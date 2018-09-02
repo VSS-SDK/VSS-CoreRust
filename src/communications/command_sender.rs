@@ -36,7 +36,7 @@ impl CommandSender {
         let bytes = global_command.write_to_bytes().unwrap();
 
         let result = self.socket.send(bytes, 0);
-        
+
         if result.is_err() {
             println!("{:?}", result.err())
         }
