@@ -10,3 +10,4 @@ pub mod robot;
 pub mod state;
 pub mod team_type;
 pub mod wheels_command;
+pub mod constants;

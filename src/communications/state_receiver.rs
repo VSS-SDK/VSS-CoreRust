@@ -1,5 +1,6 @@
 use domain::state::State;
 use domain::field_transaformation_type::FieldTransformationType;
+use helpers::coordinate_transformer::CoordinateTransformer;
 use zmq::{Context, Socket, SUB};
 use protos::state::Global_State;
 use protobuf::parse_from_bytes;
@@ -41,7 +42,14 @@ impl StateReceiver {
 
         let global_state = parse_from_bytes::<Global_State>(&bytes_state).unwrap_or_default();
 
-        State::from(global_state)
+        let mut state = State::from(global_state);
+
+        if transform_type == FieldTransformationType::Flip180Degrees {
+            let transformer = CoordinateTransformer::new();
+            transformer.spin_180_degrees(&mut state);
+        }
+
+        state
     }
 
 }
