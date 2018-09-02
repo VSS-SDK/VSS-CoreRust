@@ -33,20 +33,13 @@ impl CommandSender {
 
     pub fn send_command(&self, command: Command) {
         let global_command = CommandMapper.command_to_global_commands(command);
-        //println!("{:?}", global_command);
-
         let bytes = global_command.write_to_bytes().unwrap();
-        //println!("{:?}", bytes);
 
-        match self.socket.send(bytes, 0) {
-            Ok(v) => println!("sended"),
-            Err(e) => println!("error")
+        let result = self.socket.send(bytes, 0);
+        
+        if result.is_err() {
+            println!("{:?}", result.err())
         }
-
-        /*match str::from_utf8(&bytes){
-            Ok(v) => self.socket.send(v, 0).unwrap(),
-            Err(e) => println!("Erro: {:?}", e.error_len().unwrap())
-        }*/
     }
 
     fn setup_address(&mut self, team_type: TeamType) {
