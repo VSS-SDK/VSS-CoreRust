@@ -1,3 +1,5 @@
+use protos::state::Robot_State;
+
 #[derive(Clone, Debug)]
 pub struct Robot {
     pub x: f32,
@@ -21,3 +23,32 @@ impl Robot {
     }
 }
 
+impl From<Robot_State> for Robot {
+    fn from(robot_state: Robot_State) -> Self {
+        Robot {
+            x: robot_state
+                .get_pose()
+                .get_x(),
+
+            y: robot_state
+                .get_pose()
+                .get_y(),
+
+            angle: robot_state
+                .get_pose()
+                .get_yaw(),
+
+            speed_x: robot_state
+                .get_v_pose()
+                .get_x(),
+
+            speed_y: robot_state
+                .get_v_pose()
+                .get_y(),
+
+            speed_angle: robot_state
+                .get_v_pose()
+                .get_yaw()
+        }
+    }
+}

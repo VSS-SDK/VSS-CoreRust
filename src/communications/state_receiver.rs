@@ -22,13 +22,26 @@ impl StateReceiver {
 
     pub fn create_socket(&self) {
         let filter = "".to_string();
-        assert!(self.socket.connect(&self.address).is_ok());
-        assert!(self.socket.set_subscribe(filter.as_bytes()).is_ok());
+
+        assert!(
+            self.socket
+                .connect(&self.address)
+                .is_ok()
+        );
+
+        assert!(
+            self.socket
+                .set_subscribe(filter.as_bytes())
+                .is_ok()
+        );
     }
 
     pub fn receive_state(&self, field_transaformation_type: FieldTransformationType) -> State {
-        let bytes_state = self.socket.recv_bytes(0).unwrap();
-        let global_state = parse_from_bytes::<Global_State>(&bytes_state).unwrap();
+        let bytes_state = self.socket
+            .recv_bytes(0)
+            .unwrap_or_default();
+
+        let global_state = parse_from_bytes::<Global_State>(&bytes_state).unwrap_or_default();
 
         println!("{:?}", global_state);
 

@@ -3,10 +3,10 @@ extern crate zmq;
 use std::str;
 use domain::team_type::TeamType;
 use domain::command::Command;
-use helpers::command_mapper::CommandMapper;
 use protobuf::Message;
 
 use self::zmq::{Context, PAIR, Socket};
+use protos::command::Global_Commands;
 
 pub struct CommandSender{
     context: Context,
@@ -15,7 +15,6 @@ pub struct CommandSender{
 }
 
 impl CommandSender {
-
     pub fn new() -> Self {
         let context_helper = Context::new();
         Self {
@@ -28,14 +27,23 @@ impl CommandSender {
     pub fn create_socket(&mut self, team_type: TeamType) {
         self.setup_address(team_type);
 
-        assert!(self.socket.connect(&self.address).is_ok());
+        assert!(
+            self.socket
+            .connect(&self.address)
+            .is_ok()
+        );
     }
 
     pub fn send_command(&self, command: Command) {
-        let global_command = CommandMapper.command_to_global_commands(command);
-        let bytes = global_command.write_to_bytes().unwrap();
+        let global_command = Global_Commands::from(command);
 
-        let result = self.socket.send(bytes, 0);
+        let bytes = global_command
+            .write_to_bytes()
+            .unwrap_or_default();
+
+        let result = self
+            .socket
+            .send(bytes, 0);
 
         if result.is_err() {
             println!("{:?}", result.err())

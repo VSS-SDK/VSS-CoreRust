@@ -1,3 +1,5 @@
+use protos::state::Ball_State;
+
 #[derive(Clone, Debug)]
 pub struct Ball {
     pub x: f32,
@@ -17,3 +19,24 @@ impl Ball {
     }
 }
 
+impl From<Ball_State> for Ball {
+    fn from(ball_state: Ball_State) -> Self {
+        Ball {
+            x: ball_state
+                .get_pose()
+                .get_x(),
+
+            y: ball_state
+                .get_pose()
+                .get_y(),
+
+            speed_x: ball_state
+                .get_v_pose()
+                .get_x(),
+
+            speed_y: ball_state
+                .get_v_pose()
+                .get_y(),
+        }
+    }
+}
