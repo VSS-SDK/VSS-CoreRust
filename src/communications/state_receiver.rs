@@ -43,9 +43,7 @@ impl StateReceiver {
 
         let global_state = parse_from_bytes::<Global_State>(&bytes_state).unwrap_or_default();
 
-        println!("{:?}", global_state);
-
-        State::new()
+        State::from(global_state)
     }
 
 }
