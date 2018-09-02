@@ -21,8 +21,6 @@ impl StateReceiver {
     }
 
     pub fn create_socket(&self) {
-        let filter = "".to_string();
-
         assert!(
             self.socket
                 .connect(&self.address)
@@ -31,12 +29,12 @@ impl StateReceiver {
 
         assert!(
             self.socket
-                .set_subscribe(filter.as_bytes())
+                .set_subscribe(String::from("").as_bytes())
                 .is_ok()
         );
     }
 
-    pub fn receive_state(&self, field_transaformation_type: FieldTransformationType) -> State {
+    pub fn receive_state(&self, transform_type: FieldTransformationType) -> State {
         let bytes_state = self.socket
             .recv_bytes(0)
             .unwrap_or_default();

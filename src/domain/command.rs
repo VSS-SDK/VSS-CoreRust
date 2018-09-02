@@ -20,7 +20,7 @@ impl From<Command> for Global_Commands {
     fn from(command: Command) -> Self {
         let mut _self = Global_Commands::new();
 
-        let robots_command : Vec<Robot_Command  > = command.commands
+        let robots_command = command.commands
             .iter()
             .map(|x| Robot_Command::from(x.clone()))
             .collect();
