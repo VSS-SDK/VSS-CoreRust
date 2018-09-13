@@ -7,11 +7,29 @@ use protobuf::Message;
 use self::zmq::{Context, PAIR, Socket};
 use protos::command::Global_Commands;
 use std::error::Error;
+use traits::command_sender_trait::CommandSenderTrait;
 
 pub struct CommandSender{
     _context: Context,
     socket: Socket,
     address: String
+}
+
+impl CommandSenderTrait for CommandSender {
+    fn create_socket(&mut self, team_type: TeamType) -> Result<(), Box<Error>> {
+        self.setup_address(team_type);
+
+        Ok(self.socket.connect(&self.address)?)
+    }
+
+    fn send_command(&self, command: Command) -> Result<(), Box<Error>> {
+        let global_command = Global_Commands::from(command);
+
+        let bytes = global_command
+            .write_to_bytes()?;
+
+        Ok(self.socket.send(bytes, 0)?)
+    }
 }
 
 impl CommandSender {
@@ -26,21 +44,6 @@ impl CommandSender {
                 address: String::from("")
             }
         )
-    }
-
-    pub fn create_socket(&mut self, team_type: TeamType) -> Result<(), Box<Error>> {
-        self.setup_address(team_type);
-
-        Ok(self.socket.connect(&self.address)?)
-    }
-
-    pub fn send_command(&self, command: Command) -> Result<(), Box<Error>> {
-        let global_command = Global_Commands::from(command);
-
-        let bytes = global_command
-            .write_to_bytes()?;
-
-        Ok(self.socket.send(bytes, 0)?)
     }
 
     fn setup_address(&mut self, team_type: TeamType) {

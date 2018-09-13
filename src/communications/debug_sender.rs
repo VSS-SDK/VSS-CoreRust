@@ -4,11 +4,29 @@ use domain::debug::Debug;
 use protos::debug::Global_Debug;
 use protobuf::Message;
 use std::error::Error;
+use traits::debug_sender_trait::DebugSenderTrait;
 
 pub struct DebugSender{
     _context: Context,
     socket: Socket,
     address: String
+}
+
+impl DebugSenderTrait for DebugSender {
+    fn create_socket(&mut self, team_type: TeamType) -> Result<(), Box<Error>> {
+        self.setup_address(team_type);
+
+        Ok(self.socket.connect(&self.address)?)
+    }
+
+    fn send_debug(&self, debug: Debug) -> Result<(), Box<Error>>{
+        let global_debug = Global_Debug::from(debug);
+
+        let bytes = global_debug
+            .write_to_bytes()?;
+
+        Ok(self.socket.send(bytes, 0)?)
+    }
 }
 
 impl DebugSender {
@@ -23,21 +41,6 @@ impl DebugSender {
                 address: String::from("tcp://localhost:5558")
             }
         )
-    }
-
-    pub fn create_socket(&mut self, team_type: TeamType) -> Result<(), Box<Error>> {
-        self.setup_address(team_type);
-
-        Ok(self.socket.connect(&self.address)?)
-    }
-
-    pub fn send_debug(&self, debug: Debug) -> Result<(), Box<Error>>{
-        let global_debug = Global_Debug::from(debug);
-
-        let bytes = global_debug
-            .write_to_bytes()?;
-
-        Ok(self.socket.send(bytes, 0)?)
     }
 
     fn setup_address(&mut self, team_type: TeamType) {
