@@ -1,53 +1,46 @@
 extern crate zmq;
 
-use std::str;
 use domain::team_type::TeamType;
 use domain::command::Command;
 use protobuf::Message;
 
 use self::zmq::{Context, PAIR, Socket};
 use protos::command::Global_Commands;
+use std::error::Error;
 
 pub struct CommandSender{
-    context: Context,
+    _context: Context,
     socket: Socket,
     address: String
 }
 
 impl CommandSender {
-    pub fn new() -> Self {
-        let context_helper = Context::new();
-        Self {
-            context: context_helper.clone(),
-            socket: context_helper.socket(PAIR).unwrap(),
-            address: String::from("")
-        }
+    pub fn new() -> Result<Self, Box<Error>> {
+        let context = Context::new();
+        let socket = context.socket(PAIR)?;
+
+        Ok(
+            Self {
+                _context: context,
+                socket,
+                address: String::from("")
+            }
+        )
     }
 
-    pub fn create_socket(&mut self, team_type: TeamType) {
+    pub fn create_socket(&mut self, team_type: TeamType) -> Result<(), Box<Error>> {
         self.setup_address(team_type);
 
-        assert!(
-            self.socket
-            .connect(&self.address)
-            .is_ok()
-        );
+        Ok(self.socket.connect(&self.address)?)
     }
 
-    pub fn send_command(&self, command: Command) {
+    pub fn send_command(&self, command: Command) -> Result<(), Box<Error>> {
         let global_command = Global_Commands::from(command);
 
         let bytes = global_command
-            .write_to_bytes()
-            .unwrap_or_default();
+            .write_to_bytes()?;
 
-        let result = self
-            .socket
-            .send(bytes, 0);
-
-        if result.is_err() {
-            println!("{:?}", result.err())
-        }
+        Ok(self.socket.send(bytes, 0)?)
     }
 
     fn setup_address(&mut self, team_type: TeamType) {
