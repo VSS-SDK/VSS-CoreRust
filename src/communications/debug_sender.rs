@@ -43,6 +43,19 @@ impl DebugSender {
         )
     }
 
+    pub fn new_box() -> Result<Box<DebugSenderTrait>, Box<Error>> {
+        let context = Context::new();
+        let socket = context.socket(PAIR)?;
+
+        let _self = Self {
+            _context: context,
+            socket,
+            address: String::from("tcp://localhost:5558")
+        };
+
+        Ok(Box::new(_self))
+    }
+
     fn setup_address(&mut self, team_type: TeamType) {
         match team_type {
             TeamType::Yellow => self.address = String::from("tcp://localhost:5558"),

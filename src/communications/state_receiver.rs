@@ -52,6 +52,16 @@ impl StateReceiver {
         )
     }
 
+    pub fn new_box() -> Result<Box<StateReceiverTrait>, Box<Error>> {
+        let context = Context::new();
+        let socket = context.socket(SUB)?;
 
+        let _self = Self {
+            _context: context,
+            socket,
+            address: String::from("tcp://localhost:5555")
+        };
 
+        Ok(Box::new(_self))
+    }
 }
