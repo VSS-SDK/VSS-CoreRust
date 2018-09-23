@@ -1,53 +1,59 @@
-use domain::state::State;
-use domain::field_transaformation_type::FieldTransformationType;
 use zmq::{Context, Socket, PAIR};
-use protos::state::Global_State;
-use protobuf::parse_from_bytes;
 use domain::team_type::TeamType;
 use domain::debug::Debug;
 use protos::debug::Global_Debug;
 use protobuf::Message;
+use std::error::Error;
+use traits::debug_sender_trait::DebugSenderTrait;
 
 pub struct DebugSender{
-    context: Context,
+    _context: Context,
     socket: Socket,
     address: String
 }
 
-impl DebugSender {
-    pub fn new() -> Self {
-        let context_helper = Context::new();
-        Self {
-            context: context_helper.clone(),
-            socket: context_helper.socket(PAIR).unwrap(),
-            address: String::from("tcp://localhost:5558")
-        }
-    }
-
-    pub fn create_socket(&mut self, team_type: TeamType) {
+impl DebugSenderTrait for DebugSender {
+    fn create_socket(&mut self, team_type: TeamType) -> Result<(), Box<Error>> {
         self.setup_address(team_type);
 
-        assert!(
-            self.socket
-                .connect(&self.address)
-                .is_ok()
-        );
+        Ok(self.socket.connect(&self.address)?)
     }
 
-    pub fn send_debug(&self, debug: Debug) {
+    fn send_debug(&self, debug: Debug) -> Result<(), Box<Error>>{
         let global_debug = Global_Debug::from(debug);
 
         let bytes = global_debug
-            .write_to_bytes()
-            .unwrap_or_default();
+            .write_to_bytes()?;
 
-        let result = self
-            .socket
-            .send(bytes, 0);
+        Ok(self.socket.send(bytes, 0)?)
+    }
+}
 
-        if result.is_err() {
-            println!("{:?}", result.err())
-        }
+impl DebugSender {
+    pub fn new() -> Result<Self, Box<Error>> {
+        let context = Context::new();
+        let socket = context.socket(PAIR)?;
+
+        Ok(
+            Self {
+                _context: context,
+                socket,
+                address: String::from("tcp://localhost:5558")
+            }
+        )
+    }
+
+    pub fn new_box() -> Result<Box<DebugSenderTrait>, Box<Error>> {
+        let context = Context::new();
+        let socket = context.socket(PAIR)?;
+
+        let _self = Self {
+            _context: context,
+            socket,
+            address: String::from("tcp://localhost:5558")
+        };
+
+        Ok(Box::new(_self))
     }
 
     fn setup_address(&mut self, team_type: TeamType) {

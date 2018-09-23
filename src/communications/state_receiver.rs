@@ -4,43 +4,28 @@ use helpers::coordinate_transformer::CoordinateTransformer;
 use zmq::{Context, Socket, SUB};
 use protos::state::Global_State;
 use protobuf::parse_from_bytes;
+use std::error::Error;
+use std::result::Result::Ok;
+use traits::state_receiver_trait::StateReceiverTrait;
 
 pub struct StateReceiver{
-    context: Context,
+    _context: Context,
     socket: Socket,
     address: String
 }
 
-impl StateReceiver {
-    pub fn new() -> Self {
-        let context_helper = Context::new();
-        Self {
-            context: context_helper.clone(),
-            socket: context_helper.socket(SUB).unwrap(),
-            address: String::from("tcp://localhost:5555")
-        }
+impl StateReceiverTrait for StateReceiver {
+    fn create_socket(&self) -> Result<(), Box<Error>> {
+        self.socket.connect(&self.address)?;
+
+        Ok(self.socket.set_subscribe(String::from("").as_bytes())?)
     }
 
-    pub fn create_socket(&self) {
-        assert!(
-            self.socket
-                .connect(&self.address)
-                .is_ok()
-        );
-
-        assert!(
-            self.socket
-                .set_subscribe(String::from("").as_bytes())
-                .is_ok()
-        );
-    }
-
-    pub fn receive_state(&self, transform_type: FieldTransformationType) -> State {
+    fn receive_state(&self, transform_type: FieldTransformationType) -> Result<State, Box<Error>> {
         let bytes_state = self.socket
-            .recv_bytes(0)
-            .unwrap_or_default();
+            .recv_bytes(0)?;
 
-        let global_state = parse_from_bytes::<Global_State>(&bytes_state).unwrap_or_default();
+        let global_state = parse_from_bytes::<Global_State>(&bytes_state)?;
 
         let mut state = State::from(global_state);
 
@@ -49,7 +34,34 @@ impl StateReceiver {
             transformer.spin_180_degrees(&mut state);
         }
 
-        state
+        Ok(state)
+    }
+}
+
+impl StateReceiver {
+    pub fn new() -> Result<Self, Box<Error>> {
+        let context = Context::new();
+        let socket = context.socket(SUB)?;
+
+        Ok(
+            Self {
+                _context: context,
+                socket,
+                address: String::from("tcp://localhost:5555")
+            }
+        )
     }
 
+    pub fn new_box() -> Result<Box<StateReceiverTrait>, Box<Error>> {
+        let context = Context::new();
+        let socket = context.socket(SUB)?;
+
+        let _self = Self {
+            _context: context,
+            socket,
+            address: String::from("tcp://localhost:5555")
+        };
+
+        Ok(Box::new(_self))
+    }
 }

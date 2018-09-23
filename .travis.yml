@@ -1,0 +1,15 @@
+sudo: required
+
+language: cpp
+
+services:
+- docker
+
+script:
+- sudo docker build -f Dockerfile.ubuntu16 -t vss-core-rust-ubuntu16 .
+- sudo docker run vss-core-rust-ubuntu16
+- sudo docker build -f Dockerfile.ubuntu18 -t vss-core-rust-ubuntu18 .
+- sudo docker run vss-core-rust-ubuntu18
+
+notifications:
+slack: vss-sdk:nWk40sr6Q5gjsQ7El0kFgaOB

@@ -1,0 +1,17 @@
+FROM ubuntu:18.04
+
+# Instala o CMAKE
+RUN apt-get update
+
+# Copia tudo para o container
+COPY . /vss-core-rust-ubuntu18
+WORKDIR /vss-core-rust-ubuntu18
+
+# Adiciona permissão de execução dos shellscripts
+RUN chmod +x /vss-core-rust-ubuntu18/configure.sh
+
+# Executa a instalação na criação dos containers
+RUN /vss-core-rust-ubuntu18/configure.sh development
+
+# Script executado no docker run
+CMD cargo test
