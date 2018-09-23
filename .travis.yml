@@ -8,8 +8,6 @@ services:
 script:
 - sudo docker build -f Dockerfile.ubuntu16 -t vss-core-rust-ubuntu16 .
 - sudo docker run vss-core-rust-ubuntu16
-- sudo docker build -f Dockerfile.debian9 -t vss-core-rust-debian9 .
-- sudo docker run vss-core-rust-debian9
 - sudo docker build -f Dockerfile.ubuntu18 -t vss-core-rust-ubuntu18 .
 - sudo docker run vss-core-rust-ubuntu18
 
