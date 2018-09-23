@@ -1,0 +1,17 @@
+FROM debian:9
+
+# Instala o CMAKE
+RUN apt-get update
+
+# Copia tudo para o container
+COPY . /vss-core-rust-debian9
+WORKDIR /vss-core-rust-debian9
+
+# Adiciona permissão de execução dos shellscripts
+RUN chmod +x /vss-core-rust-debian9/configure.sh
+
+# Executa a instalação na criação dos containers
+RUN /vss-core-rust-debian9/configure.sh development
+
+# Script executado no docker run
+CMD cargo test
