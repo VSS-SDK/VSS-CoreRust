@@ -5,6 +5,7 @@ authors = ["johnathan <johnathanfercher22@gmail.com>"]
 
 [dependencies]
 protobuf = { version = "2.0.2", features = ["with-bytes"] }
+rand = "0.6.0"
 
 [dependencies.zmq]
 git = "https://github.com/erickt/rust-zmq.git"

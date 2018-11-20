@@ -4,3 +4,16 @@ pub const MIN_COORDINATE_Y : f32 = 0.0;
 pub const MAX_COORDINATE_Y : f32 = 130.0;
 pub const MIN_ANGLE_VALUE : f32 = 0.0;
 pub const MAX_ANGLE_VALUE : f32 = 360.0;
+
+pub const MIN_RANDOM_VELOCITY : f32 = 0.0;
+pub const MAX_RANDOM_VELOCITY : f32 = 5.0;
+pub const MIN_RANDOM_PATH_SIZE : u8 = 1;
+pub const MAX_RANDOM_PATH_SIZE : u8 = 10;
+pub const MIN_RANDOM_TEAM_SIZE : u8= 3;
+pub const MAX_RANDOM_TEAM_SIZE : u8= 11;
+pub const MIN_RANDOM_WHEEL_COMMAND : f32 = 1.0;
+pub const MAX_RANDOM_WHEEL_COMMAND : f32 = 10.0;
+pub const MIN_RANDOM_IP_VALUE : u8 = 1;
+pub const MAX_RANDOM_IP_VALUE : u8 = 255;
+pub const MIN_RANDOM_PORT_VALUE : u16 = 444;
+pub const MAX_RANDOM_PORT_VALUE : u16 = 20000;
