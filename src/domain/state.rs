@@ -1,6 +1,8 @@
 use domain::robot::Robot;
 use domain::ball::Ball;
 use protos::state::Global_State;
+use rand::{thread_rng, Rng};
+use domain::constants::{MIN_RANDOM_TEAM_SIZE, MAX_RANDOM_TEAM_SIZE};
 
 #[derive(Clone, Debug)]
 pub struct State {
@@ -16,6 +18,34 @@ impl State {
             team_blue: Vec::new(),
             team_yellow: Vec::new()
         }
+    }
+
+    pub fn new_with(ball: Ball, team_blue: Vec<Robot>, team_yellow: Vec<Robot>) -> Self {
+        Self {
+            ball,
+            team_blue,
+            team_yellow
+        }
+    }
+
+    pub fn new_random() -> Self {
+        Self {
+            ball: Ball::new_random(),
+            team_blue: (0..thread_rng().gen_range(MIN_RANDOM_TEAM_SIZE, MAX_RANDOM_TEAM_SIZE))
+                .map(|_| {
+                    Robot::new_random()
+                })
+                .collect(),
+            team_yellow: (0..thread_rng().gen_range(MIN_RANDOM_TEAM_SIZE, MAX_RANDOM_TEAM_SIZE))
+                .map(|_| {
+                    Robot::new_random()
+                })
+                .collect()
+        }
+    }
+
+    pub fn is_zero(&self) -> bool {
+        self.ball.is_zero() && self.team_yellow.len() == 0 && self.team_blue.len() == 0
     }
 }
 

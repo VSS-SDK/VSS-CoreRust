@@ -1,5 +1,6 @@
 extern crate protobuf;
 extern crate zmq;
+extern crate rand;
 
 pub mod communications;
 pub mod domain;

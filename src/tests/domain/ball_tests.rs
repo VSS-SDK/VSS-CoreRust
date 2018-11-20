@@ -5,6 +5,7 @@
 pub fn when_create_new_ball_should_be_zero_object() {
     let ball = Ball::new();
 
+    assert!(ball.is_zero());
     assert_eq!(ball.x, 0.0);
     assert_eq!(ball.y, 0.0);
     assert_eq!(ball.speed_x, 0.0);
@@ -15,10 +16,18 @@ pub fn when_create_new_ball_should_be_zero_object() {
 pub fn when_create_new_ball_with_should_create_correctly() {
     let ball = Ball::new_with(1.0, 2.0, 3.0, 4.0);
 
+    assert!(!ball.is_zero());
     assert_eq!(ball.x, 1.0);
     assert_eq!(ball.y, 2.0);
     assert_eq!(ball.speed_x, 3.0);
     assert_eq!(ball.speed_y, 4.0);
+}
+
+#[test]
+pub fn when_create_new_random_point_should_not_be_zero_object() {
+    let ball = Ball::new_random();
+
+    assert!(!ball.is_zero());
 }
 
 #[test]

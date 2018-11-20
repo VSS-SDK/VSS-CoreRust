@@ -7,6 +7,7 @@
 pub fn when_create_new_point_should_be_zero_object() {
     let point = Point::new();
 
+    assert!(point.is_zero());
     assert_eq!(point.x, 0.0);
     assert_eq!(point.y, 0.0);
 }
@@ -15,8 +16,16 @@ pub fn when_create_new_point_should_be_zero_object() {
 pub fn when_create_new_point_with_should_create_correctly() {
     let point = Point::new_with(1.0, 2.0);
 
+    assert!(!point.is_zero());
     assert_eq!(point.x, 1.0);
     assert_eq!(point.y, 2.0);
+}
+
+#[test]
+pub fn when_create_new_random_point_should_not_be_zero_object() {
+    let point = Point::new_random();
+
+    assert!(!point.is_zero());
 }
 
 #[test]
