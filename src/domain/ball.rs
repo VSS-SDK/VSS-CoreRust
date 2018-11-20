@@ -17,6 +17,15 @@ impl Ball {
             speed_y: 0.0
         }
     }
+
+    pub fn new_with(x: f32, y: f32, speed_x: f32, speed_y: f32) -> Self {
+        Self {
+            x,
+            y,
+            speed_x,
+            speed_y
+        }
+    }
 }
 
 impl From<Ball_State> for Ball {

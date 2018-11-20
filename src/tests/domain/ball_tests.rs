@@ -12,6 +12,16 @@ pub fn when_create_new_ball_should_be_zero_object() {
 }
 
 #[test]
+pub fn when_create_new_ball_with_should_create_correctly() {
+    let ball = Ball::new_with(1.0, 2.0, 3.0, 4.0);
+
+    assert_eq!(ball.x, 1.0);
+    assert_eq!(ball.y, 2.0);
+    assert_eq!(ball.speed_x, 3.0);
+    assert_eq!(ball.speed_y, 4.0);
+}
+
+#[test]
 pub fn when_map_ball_state_to_ball_should_map_correctly() {
     let ball_state = Ball_State::new();
     let ball = Ball::from(ball_state.clone());

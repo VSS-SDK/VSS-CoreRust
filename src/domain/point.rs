@@ -13,6 +13,13 @@ impl Point {
             y: 0.0
         }
     }
+
+    pub fn new_with(x: f32, y: f32) -> Self {
+        Self {
+            x,
+            y
+        }
+    }
 }
 
 impl From<Point> for debug::Pose {
