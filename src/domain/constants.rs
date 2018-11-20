@@ -5,6 +5,8 @@ pub const MAX_COORDINATE_Y : f32 = 130.0;
 pub const MIN_ANGLE_VALUE : f32 = 0.0;
 pub const MAX_ANGLE_VALUE : f32 = 360.0;
 
+pub const MIN_RANDOM_BALL_QTD : u8 = 0;
+pub const MAX_RANDOM_BALL_QTD : u8 = 5;
 pub const MIN_RANDOM_VELOCITY : f32 = 0.0;
 pub const MAX_RANDOM_VELOCITY : f32 = 5.0;
 pub const MIN_RANDOM_PATH_SIZE : u8 = 1;
