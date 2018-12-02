@@ -2,6 +2,8 @@ use domain::wheels_command::WheelsCommand;
 use protos::command::Global_Commands;
 use protos::command::Robot_Command;
 use protobuf::RepeatedField;
+use rand::{thread_rng, Rng};
+use domain::constants::{MIN_COMMAND_SIZE, MAX_COMMAND_SIZE};
 
 #[derive(Clone, Debug)]
 pub struct Command {
@@ -13,6 +15,26 @@ impl Command {
         Self {
             commands: Vec::new()
         }
+    }
+
+    pub fn new_with(commands: Vec<WheelsCommand>) -> Self {
+        Self {
+            commands
+        }
+    }
+
+    pub fn new_random() -> Self {
+        Self {
+            commands: (0..thread_rng().gen_range(MIN_COMMAND_SIZE, MAX_COMMAND_SIZE))
+                .map(|_| {
+                    WheelsCommand::new_random()
+                })
+                .collect()
+        }
+    }
+
+    pub fn is_zero(&self) -> bool {
+        self.commands.len() == 0
     }
 }
 

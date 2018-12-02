@@ -74,11 +74,11 @@ pub fn when_create_new_random_state_should_not_be_zero_object() {
 
 #[test]
 pub fn when_map_global_state_to_state_should_map_correctly() {
-    let mut global_state = mock_global_state();
-    let state = State::from(global_state.clone());
+    let mut _global_state = mock_global_state();
+    let state = State::from(_global_state.clone());
 
-    if global_state.get_balls().len() > 0 {
-        let ball_state = global_state.get_balls().first().unwrap();
+    if _global_state.get_balls().len() > 0 {
+        let ball_state = _global_state.get_balls().first().unwrap();
         assert_eq!(ball_state.get_pose().get_x(), state.ball.x);
         assert_eq!(ball_state.get_pose().get_y(), state.ball.y);
         assert_eq!(ball_state.get_v_pose().get_x(), state.ball.speed_x);
@@ -87,10 +87,11 @@ pub fn when_map_global_state_to_state_should_map_correctly() {
         assert!(state.ball.is_zero());
     }
 
-    assert_eq!(global_state.get_robots_yellow().len(), state.team_yellow.len());
-    assert_eq!(global_state.get_robots_blue().len(), state.team_blue.len());
+    assert_eq!(_global_state.get_robots_yellow().len(), state.team_yellow.len());
+    assert_eq!(_global_state.get_robots_blue().len(), state.team_blue.len());
 }
 
+#[allow(dead_code)]
 fn mock_global_state() -> Global_State {
     let mut global_state = Global_State::new();
 
@@ -104,7 +105,7 @@ fn mock_global_state() -> Global_State {
 fn mock_repeated_balls() -> RepeatedField<Ball_State> {
     let mut repetead_balls = RepeatedField::new();
 
-    for index in MIN_RANDOM_BALL_QTD..thread_rng().gen_range(MIN_RANDOM_BALL_QTD, MAX_RANDOM_BALL_QTD) {
+    for _index in MIN_RANDOM_BALL_QTD..thread_rng().gen_range(MIN_RANDOM_BALL_QTD, MAX_RANDOM_BALL_QTD) {
         repetead_balls.push(mock_ball_state());
     }
 
@@ -133,7 +134,7 @@ fn mock_pose() -> Pose {
 fn mock_repeated_robots() -> RepeatedField<Robot_State> {
     let mut repetead_robots_blue = RepeatedField::new();
 
-    for index in MIN_RANDOM_TEAM_SIZE..thread_rng().gen_range(MIN_RANDOM_TEAM_SIZE, MAX_RANDOM_TEAM_SIZE) {
+    for _index in MIN_RANDOM_TEAM_SIZE..thread_rng().gen_range(MIN_RANDOM_TEAM_SIZE, MAX_RANDOM_TEAM_SIZE) {
         repetead_robots_blue.push(mock_robot());
     }
 
