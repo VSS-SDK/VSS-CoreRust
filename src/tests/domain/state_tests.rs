@@ -1,5 +1,6 @@
 #[allow(unused_imports)] use domain::state::State;
 #[allow(unused_imports)] use protos::state::Pose;
+#[allow(unused_imports)] use protos::state_pose_extension;
 #[allow(unused_imports)] use protos::state::Ball_State;
 #[allow(unused_imports)] use protos::state::Global_State;
 #[allow(unused_imports)] use domain::ball::Ball;
@@ -106,46 +107,18 @@ fn mock_repeated_balls() -> RepeatedField<Ball_State> {
     let mut repetead_balls = RepeatedField::new();
 
     for _index in MIN_RANDOM_BALL_QTD..thread_rng().gen_range(MIN_RANDOM_BALL_QTD, MAX_RANDOM_BALL_QTD) {
-        repetead_balls.push(mock_ball_state());
+        repetead_balls.push(Ball_State::new_random());
     }
 
     repetead_balls
-}
-
-fn mock_ball_state() -> Ball_State {
-    let mut ball_state = Ball_State::new();
-
-    ball_state.set_pose(mock_pose());
-    ball_state.set_v_pose(mock_pose());
-
-    ball_state
-}
-
-fn mock_pose() -> Pose {
-    let mut pose = Pose::new();
-
-    pose.set_x(thread_rng().gen_range(MIN_COORDINATE_X, MAX_COORDINATE_X));
-    pose.set_y(thread_rng().gen_range(MIN_COORDINATE_Y, MAX_COORDINATE_Y));
-    pose.set_yaw(thread_rng().gen_range(MIN_ANGLE_VALUE, MAX_ANGLE_VALUE));
-
-    pose
 }
 
 fn mock_repeated_robots() -> RepeatedField<Robot_State> {
     let mut repetead_robots_blue = RepeatedField::new();
 
     for _index in MIN_RANDOM_TEAM_SIZE..thread_rng().gen_range(MIN_RANDOM_TEAM_SIZE, MAX_RANDOM_TEAM_SIZE) {
-        repetead_robots_blue.push(mock_robot());
+        repetead_robots_blue.push(Robot_State::new_random());
     }
 
     repetead_robots_blue
-}
-
-fn mock_robot() -> Robot_State {
-    let mut robot_state = Robot_State::new();
-
-    robot_state.set_pose(mock_pose());
-    robot_state.set_v_pose(mock_pose());
-
-    robot_state
 }

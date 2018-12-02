@@ -1,4 +1,9 @@
 pub mod command;
 pub mod control;
+pub mod control_pose_extension;
 pub mod debug;
+pub mod debug_pose_extension;
 pub mod state;
+pub mod state_ball_extension;
+pub mod state_pose_extension;
+pub mod state_robot_extension;

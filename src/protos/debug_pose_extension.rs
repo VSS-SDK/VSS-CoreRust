@@ -1,4 +1,4 @@
-use protos::state::Pose;
+use protos::debug::Pose;
 use rand::{thread_rng, Rng};
 use domain::constants::{MIN_COORDINATE_X, MAX_COORDINATE_X};
 use domain::constants::{MIN_COORDINATE_Y, MAX_COORDINATE_Y};
