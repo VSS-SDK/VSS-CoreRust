@@ -1,6 +1,6 @@
 #[allow(unused_imports)] use domain::state::State;
 #[allow(unused_imports)] use protos::state::Pose;
-#[allow(unused_imports)] use protos::state_pose_extension;
+#[allow(unused_imports)] use protos::state_random_extension;
 #[allow(unused_imports)] use protos::state::Ball_State;
 #[allow(unused_imports)] use protos::state::Global_State;
 #[allow(unused_imports)] use domain::ball::Ball;
@@ -14,6 +14,7 @@
 #[allow(unused_imports)] use domain::constants::{MIN_ANGLE_VALUE, MAX_ANGLE_VALUE};
 #[allow(unused_imports)] use domain::constants::{MIN_RANDOM_BALL_QTD, MAX_RANDOM_BALL_QTD};
 #[allow(unused_imports)] use traits::new_random_trait::NewRandom;
+#[allow(unused_imports)] use traits::new_random_repeated_trait::NewRandomRepeatedField;
 
 #[test]
 pub fn when_create_new_state_should_be_zero_object() {
@@ -76,7 +77,7 @@ pub fn when_create_new_random_state_should_not_be_zero_object() {
 
 #[test]
 pub fn when_map_global_state_to_state_should_map_correctly() {
-    let mut _global_state = mock_global_state();
+    let mut _global_state = Global_State::new_random();
     let state = State::from(_global_state.clone());
 
     if _global_state.get_balls().len() > 0 {
@@ -91,35 +92,4 @@ pub fn when_map_global_state_to_state_should_map_correctly() {
 
     assert_eq!(_global_state.get_robots_yellow().len(), state.team_yellow.len());
     assert_eq!(_global_state.get_robots_blue().len(), state.team_blue.len());
-}
-
-#[allow(dead_code)]
-fn mock_global_state() -> Global_State {
-    let mut global_state = Global_State::new();
-
-    global_state.set_balls(mock_repeated_balls());
-    global_state.set_robots_blue(mock_repeated_robots());
-    global_state.set_robots_yellow(mock_repeated_robots());
-
-    global_state
-}
-
-fn mock_repeated_balls() -> RepeatedField<Ball_State> {
-    let mut repetead_balls = RepeatedField::new();
-
-    for _index in MIN_RANDOM_BALL_QTD..thread_rng().gen_range(MIN_RANDOM_BALL_QTD, MAX_RANDOM_BALL_QTD) {
-        repetead_balls.push(Ball_State::new_random());
-    }
-
-    repetead_balls
-}
-
-fn mock_repeated_robots() -> RepeatedField<Robot_State> {
-    let mut repetead_robots_blue = RepeatedField::new();
-
-    for _index in MIN_RANDOM_TEAM_SIZE..thread_rng().gen_range(MIN_RANDOM_TEAM_SIZE, MAX_RANDOM_TEAM_SIZE) {
-        repetead_robots_blue.push(Robot_State::new_random());
-    }
-
-    repetead_robots_blue
 }
