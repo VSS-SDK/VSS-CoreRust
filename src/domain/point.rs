@@ -3,6 +3,7 @@ use rand::{thread_rng, Rng};
 use domain::constants::{MIN_COORDINATE_X, MAX_COORDINATE_X};
 use domain::constants::{MIN_COORDINATE_Y, MAX_COORDINATE_Y};
 use traits::new_random_trait::NewRandom;
+use traits::is_zero_trait::IsZero;
 
 #[derive(Clone, Debug)]
 pub struct Point {
@@ -24,12 +25,6 @@ impl Point {
             y
         }
     }
-
-
-
-    pub fn is_zero(&self) -> bool {
-        self.x == 0.0 && self.y == 0.0
-    }
 }
 
 impl NewRandom for Point {
@@ -38,6 +33,12 @@ impl NewRandom for Point {
             x: thread_rng().gen_range(MIN_COORDINATE_X, MAX_COORDINATE_X),
             y: thread_rng().gen_range(MIN_COORDINATE_Y, MAX_COORDINATE_Y),
         }
+    }
+}
+
+impl IsZero for Point {
+    fn is_zero(&self) -> bool {
+        self.x == 0.0 && self.y == 0.0
     }
 }
 

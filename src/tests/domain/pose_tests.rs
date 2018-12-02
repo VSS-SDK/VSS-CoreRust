@@ -3,6 +3,7 @@
 #[allow(unused_imports)] use protos::state;
 #[allow(unused_imports)] use protos::control;
 #[allow(unused_imports)] use traits::new_random_trait::NewRandom;
+#[allow(unused_imports)] use traits::is_zero_trait::IsZero;
 
 #[test]
 pub fn when_create_new_point_should_be_zero_object() {

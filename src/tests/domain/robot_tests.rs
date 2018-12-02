@@ -1,6 +1,7 @@
 #[allow(unused_imports)] use domain::robot::Robot;
 #[allow(unused_imports)] use protos::state::Robot_State;
 #[allow(unused_imports)] use traits::new_random_trait::NewRandom;
+#[allow(unused_imports)] use traits::is_zero_trait::IsZero;
 
 #[test]
 pub fn when_create_new_robot_should_be_zero_object() {

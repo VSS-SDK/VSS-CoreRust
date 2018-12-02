@@ -15,6 +15,7 @@
 #[allow(unused_imports)] use domain::constants::{MIN_RANDOM_BALL_QTD, MAX_RANDOM_BALL_QTD};
 #[allow(unused_imports)] use traits::new_random_trait::NewRandom;
 #[allow(unused_imports)] use traits::new_random_repeated_trait::NewRandomRepeatedField;
+#[allow(unused_imports)] use traits::is_zero_trait::IsZero;
 
 #[test]
 pub fn when_create_new_state_should_be_zero_object() {

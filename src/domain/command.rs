@@ -5,6 +5,7 @@ use protobuf::RepeatedField;
 use rand::{thread_rng, Rng};
 use domain::constants::{MIN_COMMAND_SIZE, MAX_COMMAND_SIZE};
 use traits::new_random_trait::NewRandom;
+use traits::is_zero_trait::IsZero;
 
 #[derive(Clone, Debug)]
 pub struct Command {
@@ -23,10 +24,6 @@ impl Command {
             commands
         }
     }
-
-    pub fn is_zero(&self) -> bool {
-        self.commands.len() == 0
-    }
 }
 
 impl NewRandom for Command {
@@ -38,6 +35,12 @@ impl NewRandom for Command {
                 })
                 .collect()
         }
+    }
+}
+
+impl IsZero for Command {
+    fn is_zero(&self) -> bool {
+        self.commands.len() == 0
     }
 }
 

@@ -1,5 +1,6 @@
 #[allow(unused_imports)] use domain::command::Command;
 #[allow(unused_imports)] use protos::command::Global_Commands;
+#[allow(unused_imports)] use traits::is_zero_trait::IsZero;
 
 #[test]
 pub fn when_create_new_wheels_command_should_be_zero_object() {

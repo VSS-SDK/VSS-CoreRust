@@ -4,6 +4,7 @@ use domain::constants::{MIN_COORDINATE_X, MAX_COORDINATE_X};
 use domain::constants::{MIN_COORDINATE_Y, MAX_COORDINATE_Y};
 use domain::constants::{MIN_RANDOM_VELOCITY, MAX_RANDOM_VELOCITY};
 use traits::new_random_trait::NewRandom;
+use traits::is_zero_trait::IsZero;
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Ball {
@@ -31,10 +32,6 @@ impl Ball {
             speed_y
         }
     }
-
-    pub fn is_zero(&self) -> bool {
-        self.x == 0.0 && self.y == 0.0 && self.speed_x == 0.0 && self.speed_y == 0.0
-    }
 }
 
 impl NewRandom for Ball {
@@ -45,6 +42,12 @@ impl NewRandom for Ball {
             speed_x: thread_rng().gen_range(MIN_RANDOM_VELOCITY, MAX_RANDOM_VELOCITY),
             speed_y: thread_rng().gen_range(MIN_RANDOM_VELOCITY, MAX_RANDOM_VELOCITY),
         }
+    }
+}
+
+impl IsZero for Ball {
+    fn is_zero(&self) -> bool {
+        self.x == 0.0 && self.y == 0.0 && self.speed_x == 0.0 && self.speed_y == 0.0
     }
 }
 

@@ -5,6 +5,7 @@ use domain::constants::{MIN_COORDINATE_Y, MAX_COORDINATE_Y};
 use domain::constants::{MIN_ANGLE_VALUE, MAX_ANGLE_VALUE};
 use domain::constants::{MIN_RANDOM_VELOCITY, MAX_RANDOM_VELOCITY};
 use traits::new_random_trait::NewRandom;
+use traits::is_zero_trait::IsZero;
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Robot {
@@ -38,10 +39,6 @@ impl Robot {
             speed_angle
         }
     }
-
-    pub fn is_zero(&self) -> bool {
-        self.x == 0.0 && self.y == 0.0 && self.angle == 0.0 && self.speed_x == 0.0 && self.speed_y == 0.0 && self.speed_angle == 0.0
-    }
 }
 
 impl NewRandom for Robot {
@@ -54,6 +51,12 @@ impl NewRandom for Robot {
             speed_y: thread_rng().gen_range(MIN_RANDOM_VELOCITY, MAX_RANDOM_VELOCITY),
             speed_angle: thread_rng().gen_range(MIN_RANDOM_VELOCITY, MAX_RANDOM_VELOCITY),
         }
+    }
+}
+
+impl IsZero for Robot {
+    fn is_zero(&self) -> bool {
+        self.x == 0.0 && self.y == 0.0 && self.angle == 0.0 && self.speed_x == 0.0 && self.speed_y == 0.0 && self.speed_angle == 0.0
     }
 }
 

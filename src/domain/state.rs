@@ -4,6 +4,7 @@ use protos::state::Global_State;
 use rand::{thread_rng, Rng};
 use domain::constants::{MIN_RANDOM_TEAM_SIZE, MAX_RANDOM_TEAM_SIZE};
 use traits::new_random_trait::NewRandom;
+use traits::is_zero_trait::IsZero;
 
 #[derive(Clone, Debug)]
 pub struct State {
@@ -28,10 +29,6 @@ impl State {
             team_yellow
         }
     }
-
-    pub fn is_zero(&self) -> bool {
-        self.ball.is_zero() && self.team_yellow.len() == 0 && self.team_blue.len() == 0
-    }
 }
 
 impl NewRandom for State {
@@ -49,6 +46,12 @@ impl NewRandom for State {
                 })
                 .collect()
         }
+    }
+}
+
+impl IsZero for State {
+    fn is_zero(&self) -> bool {
+        self.ball.is_zero() && self.team_yellow.len() == 0 && self.team_blue.len() == 0
     }
 }
 
