@@ -1,5 +1,6 @@
 #[allow(unused_imports)] use domain::ball::Ball;
 #[allow(unused_imports)] use protos::state::Ball_State;
+#[allow(unused_imports)] use traits::new_random_trait::NewRandom;
 
 #[test]
 pub fn when_create_new_ball_should_be_zero_object() {

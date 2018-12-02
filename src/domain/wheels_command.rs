@@ -1,6 +1,7 @@
 use protos::command::Robot_Command;
 use rand::{thread_rng, Rng};
 use domain::constants::{MIN_RANDOM_WHEEL_COMMAND, MAX_RANDOM_WHEEL_COMMAND};
+use traits::new_random_trait::NewRandom;
 
 #[derive(Clone, Debug)]
 pub struct WheelsCommand {
@@ -23,15 +24,17 @@ impl WheelsCommand {
         }
     }
 
-    pub fn new_random() -> Self {
+    pub fn is_zero(&self) -> bool {
+        self.left_vel == 0.0 && self.right_vel == 0.0
+    }
+}
+
+impl NewRandom for WheelsCommand {
+    fn new_random() -> Self {
         Self {
             left_vel: thread_rng().gen_range(MIN_RANDOM_WHEEL_COMMAND, MAX_RANDOM_WHEEL_COMMAND),
             right_vel: thread_rng().gen_range(MIN_RANDOM_WHEEL_COMMAND, MAX_RANDOM_WHEEL_COMMAND),
         }
-    }
-
-    pub fn is_zero(&self) -> bool {
-        self.left_vel == 0.0 && self.right_vel == 0.0
     }
 }
 

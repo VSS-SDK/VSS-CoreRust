@@ -1,5 +1,6 @@
 #[allow(unused_imports)] use domain::wheels_command::WheelsCommand;
 #[allow(unused_imports)] use protos::command::Robot_Command;
+#[allow(unused_imports)] use traits::new_random_trait::NewRandom;
 
 #[test]
 pub fn when_create_new_wheels_command_should_be_zero_object() {

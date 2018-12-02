@@ -4,6 +4,7 @@ use protos::command::Robot_Command;
 use protobuf::RepeatedField;
 use rand::{thread_rng, Rng};
 use domain::constants::{MIN_COMMAND_SIZE, MAX_COMMAND_SIZE};
+use traits::new_random_trait::NewRandom;
 
 #[derive(Clone, Debug)]
 pub struct Command {
@@ -23,7 +24,13 @@ impl Command {
         }
     }
 
-    pub fn new_random() -> Self {
+    pub fn is_zero(&self) -> bool {
+        self.commands.len() == 0
+    }
+}
+
+impl NewRandom for Command {
+    fn new_random() -> Self {
         Self {
             commands: (0..thread_rng().gen_range(MIN_COMMAND_SIZE, MAX_COMMAND_SIZE))
                 .map(|_| {
@@ -31,10 +38,6 @@ impl Command {
                 })
                 .collect()
         }
-    }
-
-    pub fn is_zero(&self) -> bool {
-        self.commands.len() == 0
     }
 }
 
