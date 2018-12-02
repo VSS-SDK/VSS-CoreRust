@@ -6,7 +6,7 @@ use traits::new_random_trait::NewRandom;
 use traits::is_zero_trait::IsZero;
 use traits::new_random_vec::NewRandomVec;
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct WheelsCommand {
     pub left_vel: f32,
     pub right_vel: f32,
