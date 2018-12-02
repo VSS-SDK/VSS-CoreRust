@@ -4,8 +4,10 @@ use domain::constants::{MIN_COORDINATE_X, MAX_COORDINATE_X};
 use domain::constants::{MIN_COORDINATE_Y, MAX_COORDINATE_Y};
 use domain::constants::{MIN_ANGLE_VALUE, MAX_ANGLE_VALUE};
 use domain::constants::{MIN_RANDOM_VELOCITY, MAX_RANDOM_VELOCITY};
+use domain::constants::{MIN_RANDOM_TEAM_SIZE, MAX_RANDOM_TEAM_SIZE};
 use traits::new_random_trait::NewRandom;
 use traits::is_zero_trait::IsZero;
+use traits::new_random_vec::NewRandomVec;
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Robot {
@@ -51,6 +53,16 @@ impl NewRandom for Robot {
             speed_y: thread_rng().gen_range(MIN_RANDOM_VELOCITY, MAX_RANDOM_VELOCITY),
             speed_angle: thread_rng().gen_range(MIN_RANDOM_VELOCITY, MAX_RANDOM_VELOCITY),
         }
+    }
+}
+
+impl NewRandomVec<Robot> for Robot {
+    fn new_random_vec() -> Vec<Robot> {
+        (MIN_RANDOM_TEAM_SIZE..thread_rng().gen_range(MIN_RANDOM_TEAM_SIZE, MAX_RANDOM_TEAM_SIZE))
+            .map(|_| {
+                Robot::new_random()
+            })
+            .collect::<Vec<Robot>>()
     }
 }
 

@@ -1,8 +1,10 @@
 use protos::command::Robot_Command;
 use rand::{thread_rng, Rng};
 use domain::constants::{MIN_RANDOM_WHEEL_COMMAND, MAX_RANDOM_WHEEL_COMMAND};
+use domain::constants::{MIN_COMMAND_SIZE, MAX_COMMAND_SIZE};
 use traits::new_random_trait::NewRandom;
 use traits::is_zero_trait::IsZero;
+use traits::new_random_vec::NewRandomVec;
 
 #[derive(Clone, Debug)]
 pub struct WheelsCommand {
@@ -35,6 +37,22 @@ impl NewRandom for WheelsCommand {
     }
 }
 
+impl NewRandomVec<WheelsCommand> for WheelsCommand {
+    fn new_random_vec() -> Vec<WheelsCommand> {
+        (MIN_COMMAND_SIZE..thread_rng().gen_range(MIN_COMMAND_SIZE, MAX_COMMAND_SIZE))
+            .map(|_| {
+                WheelsCommand::new_random()
+            })
+            .collect::<Vec<WheelsCommand>>()
+    }
+}
+
+impl IsZero for WheelsCommand {
+    fn is_zero(&self) -> bool {
+        self.left_vel == 0.0 && self.right_vel == 0.0
+    }
+}
+
 impl From<WheelsCommand> for Robot_Command {
     fn from(wheels_command: WheelsCommand) -> Self {
         let mut _self = Robot_Command::new();
@@ -43,12 +61,6 @@ impl From<WheelsCommand> for Robot_Command {
         _self.set_right_vel(wheels_command.right_vel);
 
         _self
-    }
-}
-
-impl IsZero for WheelsCommand {
-    fn is_zero(&self) -> bool {
-        self.left_vel == 0.0 && self.right_vel == 0.0
     }
 }
 

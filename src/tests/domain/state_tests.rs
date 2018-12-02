@@ -16,6 +16,7 @@
 #[allow(unused_imports)] use traits::new_random_trait::NewRandom;
 #[allow(unused_imports)] use traits::new_random_repeated_trait::NewRandomRepeatedField;
 #[allow(unused_imports)] use traits::is_zero_trait::IsZero;
+#[allow(unused_imports)] use traits::new_random_vec::NewRandomVec;
 
 #[test]
 pub fn when_create_new_state_should_be_zero_object() {
@@ -29,18 +30,8 @@ pub fn when_create_new_state_should_be_zero_object() {
 
 #[test]
 pub fn when_create_new_state_with_should_create_correctly() {
-    let team_blue = (0..thread_rng().gen_range(MIN_RANDOM_TEAM_SIZE, MAX_RANDOM_TEAM_SIZE))
-        .map(|_| {
-            Robot::new_random()
-        })
-        .collect::<Vec<Robot>>();
-
-    let team_yellow =  (0..thread_rng().gen_range(MIN_RANDOM_TEAM_SIZE, MAX_RANDOM_TEAM_SIZE))
-        .map(|_| {
-            Robot::new_random()
-        })
-        .collect::<Vec<Robot>>();
-
+    let team_blue = Robot::new_random_vec();
+    let team_yellow =  Robot::new_random_vec();
     let ball = Ball::new_random();
 
     let state = State::new_with(ball.clone(), team_blue.clone(), team_yellow.clone());
