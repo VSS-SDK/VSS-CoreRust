@@ -39,8 +39,7 @@ impl NewRandom for WheelsCommand {
 
 impl NewRandomVec<WheelsCommand> for WheelsCommand {
     fn new_random_vec() -> Vec<WheelsCommand> {
-        (MIN_COMMAND_SIZE..thread_rng().gen_range(MIN_COMMAND_SIZE, MAX_COMMAND_SIZE))
-            .map(|_| {
+        (MIN_COMMAND_SIZE..thread_rng().gen_range(MIN_COMMAND_SIZE+1, MAX_COMMAND_SIZE)).map(|_| {
                 WheelsCommand::new_random()
             })
             .collect::<Vec<WheelsCommand>>()

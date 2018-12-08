@@ -29,7 +29,7 @@ impl Command {
 impl NewRandom for Command {
     fn new_random() -> Self {
         Self {
-            commands: (MIN_COMMAND_SIZE..thread_rng().gen_range(MIN_COMMAND_SIZE, MAX_COMMAND_SIZE))
+            commands: (MIN_COMMAND_SIZE..thread_rng().gen_range(MIN_COMMAND_SIZE+1, MAX_COMMAND_SIZE))
                 .map(|_| {
                     WheelsCommand::new_random()
                 })

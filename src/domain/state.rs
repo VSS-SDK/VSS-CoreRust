@@ -35,12 +35,12 @@ impl NewRandom for State {
     fn new_random() -> Self {
         Self {
             ball: Ball::new_random(),
-            team_blue: (0..thread_rng().gen_range(MIN_RANDOM_TEAM_SIZE, MAX_RANDOM_TEAM_SIZE))
+            team_blue: (MIN_RANDOM_TEAM_SIZE..thread_rng().gen_range(MIN_RANDOM_TEAM_SIZE+1, MAX_RANDOM_TEAM_SIZE))
                 .map(|_| {
                     Robot::new_random()
                 })
                 .collect(),
-            team_yellow: (0..thread_rng().gen_range(MIN_RANDOM_TEAM_SIZE, MAX_RANDOM_TEAM_SIZE))
+            team_yellow: (MIN_RANDOM_TEAM_SIZE..thread_rng().gen_range(MIN_RANDOM_TEAM_SIZE+1, MAX_RANDOM_TEAM_SIZE))
                 .map(|_| {
                     Robot::new_random()
                 })

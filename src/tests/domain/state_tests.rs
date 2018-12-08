@@ -62,9 +62,9 @@ pub fn when_create_new_state_with_should_create_correctly() {
 
 #[test]
 pub fn when_create_new_random_state_should_not_be_zero_object() {
-    let point = State::new_random();
+    let state = State::new_random();
 
-    assert!(!point.is_zero());
+    assert!(!state.is_zero());
 }
 
 #[test]
