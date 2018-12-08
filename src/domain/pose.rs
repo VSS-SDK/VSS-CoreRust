@@ -5,6 +5,8 @@ use rand::{thread_rng, Rng};
 use domain::constants::{MIN_COORDINATE_X, MAX_COORDINATE_X};
 use domain::constants::{MIN_COORDINATE_Y, MAX_COORDINATE_Y};
 use domain::constants::{MIN_ANGLE_VALUE, MAX_ANGLE_VALUE};
+use traits::new_random_trait::NewRandom;
+use traits::is_zero_trait::IsZero;
 
 #[derive(Clone, Debug)]
 pub struct Pose {
@@ -29,16 +31,20 @@ impl Pose {
             angle
         }
     }
+}
 
-    pub fn new_random() -> Self {
+impl NewRandom for Pose {
+    fn new_random() -> Self {
         Self {
             x: thread_rng().gen_range(MIN_COORDINATE_X, MAX_COORDINATE_X),
             y: thread_rng().gen_range(MIN_COORDINATE_Y, MAX_COORDINATE_Y),
             angle: thread_rng().gen_range(MIN_ANGLE_VALUE, MAX_ANGLE_VALUE),
         }
     }
+}
 
-    pub fn is_zero(&self) -> bool {
+impl IsZero for Pose {
+    fn is_zero(&self) -> bool {
         self.x == 0.0 && self.y == 0.0 && self.angle == 0.0
     }
 }

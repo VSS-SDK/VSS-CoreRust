@@ -3,6 +3,8 @@ use domain::ball::Ball;
 use protos::state::Global_State;
 use rand::{thread_rng, Rng};
 use domain::constants::{MIN_RANDOM_TEAM_SIZE, MAX_RANDOM_TEAM_SIZE};
+use traits::new_random_trait::NewRandom;
+use traits::is_zero_trait::IsZero;
 
 #[derive(Clone, Debug)]
 pub struct State {
@@ -27,24 +29,28 @@ impl State {
             team_yellow
         }
     }
+}
 
-    pub fn new_random() -> Self {
+impl NewRandom for State {
+    fn new_random() -> Self {
         Self {
             ball: Ball::new_random(),
-            team_blue: (0..thread_rng().gen_range(MIN_RANDOM_TEAM_SIZE, MAX_RANDOM_TEAM_SIZE))
+            team_blue: (MIN_RANDOM_TEAM_SIZE..thread_rng().gen_range(MIN_RANDOM_TEAM_SIZE+1, MAX_RANDOM_TEAM_SIZE))
                 .map(|_| {
                     Robot::new_random()
                 })
                 .collect(),
-            team_yellow: (0..thread_rng().gen_range(MIN_RANDOM_TEAM_SIZE, MAX_RANDOM_TEAM_SIZE))
+            team_yellow: (MIN_RANDOM_TEAM_SIZE..thread_rng().gen_range(MIN_RANDOM_TEAM_SIZE+1, MAX_RANDOM_TEAM_SIZE))
                 .map(|_| {
                     Robot::new_random()
                 })
                 .collect()
         }
     }
+}
 
-    pub fn is_zero(&self) -> bool {
+impl IsZero for State {
+    fn is_zero(&self) -> bool {
         self.ball.is_zero() && self.team_yellow.len() == 0 && self.team_blue.len() == 0
     }
 }

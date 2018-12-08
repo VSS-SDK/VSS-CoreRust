@@ -4,6 +4,10 @@ use domain::constants::{MIN_COORDINATE_X, MAX_COORDINATE_X};
 use domain::constants::{MIN_COORDINATE_Y, MAX_COORDINATE_Y};
 use domain::constants::{MIN_ANGLE_VALUE, MAX_ANGLE_VALUE};
 use domain::constants::{MIN_RANDOM_VELOCITY, MAX_RANDOM_VELOCITY};
+use domain::constants::{MIN_RANDOM_TEAM_SIZE, MAX_RANDOM_TEAM_SIZE};
+use traits::new_random_trait::NewRandom;
+use traits::is_zero_trait::IsZero;
+use traits::new_random_vec::NewRandomVec;
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Robot {
@@ -37,8 +41,10 @@ impl Robot {
             speed_angle
         }
     }
+}
 
-    pub fn new_random() -> Self {
+impl NewRandom for Robot {
+    fn new_random() -> Self {
         Self {
             x: thread_rng().gen_range(MIN_COORDINATE_X, MAX_COORDINATE_X),
             y: thread_rng().gen_range(MIN_COORDINATE_Y, MAX_COORDINATE_Y),
@@ -48,8 +54,20 @@ impl Robot {
             speed_angle: thread_rng().gen_range(MIN_RANDOM_VELOCITY, MAX_RANDOM_VELOCITY),
         }
     }
+}
 
-    pub fn is_zero(&self) -> bool {
+impl NewRandomVec<Robot> for Robot {
+    fn new_random_vec() -> Vec<Robot> {
+        (MIN_RANDOM_TEAM_SIZE..thread_rng().gen_range(MIN_RANDOM_TEAM_SIZE, MAX_RANDOM_TEAM_SIZE))
+            .map(|_| {
+                Robot::new_random()
+            })
+            .collect::<Vec<Robot>>()
+    }
+}
+
+impl IsZero for Robot {
+    fn is_zero(&self) -> bool {
         self.x == 0.0 && self.y == 0.0 && self.angle == 0.0 && self.speed_x == 0.0 && self.speed_y == 0.0 && self.speed_angle == 0.0
     }
 }
