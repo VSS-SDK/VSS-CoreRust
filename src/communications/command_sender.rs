@@ -28,6 +28,8 @@ impl CommandSenderTrait for CommandSender {
         let bytes = global_command
             .write_to_bytes()?;
 
+        println!("{:?}", bytes);
+
         Ok(self.socket.send(bytes, 0)?)
     }
 }
